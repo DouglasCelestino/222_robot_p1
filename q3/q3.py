@@ -14,19 +14,55 @@ print("OpenCV versão: ", cv2.__version__)
 print("Diretório de trabalho: ", os.getcwd())
 
 # Arquivos necessários
-imgname = "bandeiras.png"
+video = "crosshair.mp4"
+
+def laser_acertou(bgr):
+    """
+    Identifica se o laser acertou o alvo e imprime  resposta na imagem,
+    junto com os bounding boxes e imprimir as profundidades no terminal
+
+    Entrada:
+    - bgr: imagem original em BGR
+    Saída:
+    - img: imagem em BGR mostrando as saídas visuais pedidas
+    """ 
+
+    img = bgr.copy()
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+
+    # Você deverá trabalhar aqui
+
+    return img
+
 
 if __name__ == "__main__":
 
-    frame = cv2.imread(imgname)
-    
-    # Our operations on the frame come here
-    img = frame.copy()
-    
-    # NOTE que em testes a OpenCV 4.0 requereu frames em BGR para o cv2.imshow
-    cv2.imshow('Input', frame)
-    cv2.imshow('Output', img)
+    # Inicializa a aquisição da webcam
+    cap = cv2.VideoCapture(video)
 
-    cv2.waitKey()
+    print("Se a janela com a imagem não aparecer em primeiro plano dê Alt-Tab")
+
+    while(True):
+        # Capture frame-by-frame
+        ret, frame = cap.read()
+        
+        if ret == False:
+            #print("Codigo de retorno FALSO - problema para capturar o frame")
+            #cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            break
+
+        # Our operations on the frame come here
+        img = laser_acertou(frame.copy())
+
+        # NOTE que em testes a OpenCV 4.0 requereu frames em BGR para o cv2.imshow
+        cv2.imshow('Input', frame)
+        cv2.imshow('Output', img)
+
+        # Pressione 'q' para interromper o video
+        if cv2.waitKey(1000//30) & 0xFF == ord('q'):
+            break
+
+    # When everything done, release the capture
+    cap.release()
     cv2.destroyAllWindows()
 

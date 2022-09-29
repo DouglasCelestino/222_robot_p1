@@ -101,28 +101,31 @@ Casos intermediários ou omissos da rubrica serão decididos pelo professor.
 
 ## Questão 3  (2.50 pontos)
 
-Nesta questão você deverá fazer um retângulo em volta de todas as bandeiras do Brasil.
-Não poderá ser usada a informação da posição das mesmas, apenas as cores.
 
-![](./q3/bandeiras.png)
+Nesta questão você irá checar qual alvo se aproxima e se a mira laser composta por um círculo e um *crosshair* está acertando esse alvo. A direção do laser é definida pela linha ligando o centro do círculo ao centro do crosshair.
 
-Observe que há bandeiras com cores semelhantes, porém apenas a do Brasil possui figuras com cores distintas uma dentro da outra.
+
+### O que você deverá fazer
+
+Você precisará encontrar qual é o tipo de alvo e escrever na tela. Então, verifique se a linha reta que liga o centro da circunferência ao centro do crosshair passa por dentro do retângulo do alvo. Essa verificação pode ser feita verificando se algum dos pontos de cima do objeto está acima da reta e algum dos pontos de baixo do objeto se encontra abaixo da reta.
+
+Caso o laser acerte o alvo, escreva "ACERTOU X" na tela, onde X deve ser substituído pelo nome do alvo. 
 
 #### Orientações
 
-Trabalhe no arquivo `q3/q3.py`. Este exercício **não precisa** de ROS. Portanto pode ser feito até em Mac ou Windows
+Trabalhe no arquivo `./q3/q3.py`, dentro da função `laser_acertou()`. Este exercício **não precisa** de ROS. Portanto pode ser feito até em Mac ou Windows. Antes de tudo rode o arquivo para checar se o video é mostrado. 
 
 #### O que você deve fazer:
-
 
 |Resultado| Conceito| 
 |---|---|
 | Não executa | zero |
-| Segmenta a cor verde e gera saída visual |0.6|
-| Identifica pelo menos uma bandeira do Brasil | 1.0|
-| Identifica todas as bandeira do Brasil e até duas outras | 1.5|
-| Identifica todas as bandeira do Brasil e apenas uma outra | 2.0|
-| Identifica todas e apenas as bandeiras do Brasil| 2.5 |
+| Identifica corretamente o tipo de alvo  e seu retângulo envolvente, escrevendo na tela | 0.5 |
+| Identifica o alvo e o centro da circunferência da mira, com saída visual | 1.0 |
+| Identifica corretamente o centro do *crosshair*, com saída visual  |+1.0|
+| Identifica o alvo e desenha a reta que liga o centro do crosshair e o centro do circulo  |2.2|
+| Detecta corretamente se o laser acerta o alvo, com mensagem na tela, mantendo todas as outras saídas visuais pedidas| 2.5 |
+
 
 Casos intermediários ou omissos da rubrica serão decididos pelo professor.
 

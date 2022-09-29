@@ -14,7 +14,7 @@ print("OpenCV versão: ", cv2.__version__)
 print("Diretório de trabalho: ", os.getcwd())
 
 # Arquivos necessários
-video = "quadrado.mp4"
+video = "enduro.mp4"
 
 if __name__ == "__main__":
 
