@@ -13,6 +13,19 @@ Nome:_______________
 Questões que fez:____________
 
 
+** Embora não seja obrigatório, recomendamos que grave e publique um vídeo do robô rodando no Gazebo demonstrando o funcionamento das questões 4 e 5 **
+
+Para gravar video no Linux: `Ctrl + Alt + Shift + R`
+
+Para remover o limite de tempo de gravação: digitar o comando abaixo no terminal
+
+    gsettings set org.gnome.settings-daemon.plugins.mediakeys max-screencast-length 0
+
+Link para o vídeo da questão 4: __________________
+
+Link para o vídeo da questão 5: __________________
+
+
 **Observações de avaliações nesta disciplina:**
 
 * Clone o repositório da prova dentro de `~/catkin_ws/src` se estiver trabalhando no Linux.
@@ -94,7 +107,7 @@ Escreva na tela se o carro está mais à direita ou mais à esquerda na pista, l
 | Segmenta as linhas e mostra saída visual | 0.6|
 | Identifica as retas das guias e apresenta saída visual das mesmas| 1.2|
 | Apresenta na tela o ponto de fuga das guias | 1.8|
-| escreve na tela as situações pedidas no enunciado | 2.2|
+| Escreve na tela as situações pedidas no enunciado | 2.2|
 | Funciona para todos os ambientes | +0.3 |
 
 Casos intermediários ou omissos da rubrica serão decididos pelo professor.
@@ -163,103 +176,78 @@ Em seguida faça o [catkin_make](./instrucoes_setup.md).
 
 ## Questão 4 (2.50 pontos)
 
-<img src="gaz_oval.png" width=100%></img>
+<img src="caixas.png" width=50%></img>
 
 Seu robô está no cenário visível abaixo:
 
-    roslaunch my_simulation pista_oval.launch
+    roslaunch my_simulation caixas.launch
 
 
 #### O que é para fazer
 
-Faça o robô dar uma volta na pista abaixo, parando quando chegar próximo ao início (origem das coordenadas -- você pode descobrir isso usando a odometria). A distância do robô à posição inicial deve ser impressa no terminal. Dicas: 
-
-1. Você pode centralizar o robô na pista tanto usando o ponto de fuga quanto o ponto de cruzamento da  reta central com a linha inferior da imagem.
-
-1. Caso você esteja usando o ponto de fuga, e aparecer apenas a reta da esquerda, gire o robô para a direita, e vice-versa.
-
-1. Caso o robô saia da pista, é permitido retorná-lo manualmente ao centro da pista no mesmo ponto em que ele saiu. Porém o robô deve demonstrar habilidade em seguir o ponto de fuga ou o ponto de base da reta central (robô fugindo da pista deve ser um caso de exceção)
-
-1. Caso a pista apareça muito curva na imagem e não possa ser bem aproximada por uma reta, você pode usar apenas a porção inferior da mesma para encontrar retas melhores  
-
-Para responder à questão você deverá trabalhar em `p1_221/scripts/q4.py`:
-
-1. Preencher a função `gerar_ponto_referencia()` que deve retornar o ponto central da imagem, o ponto de referência para o controle do robô e a imagem com o ponto de referência desenhado usando um croshair
-
-2. Usando as informações geradas pela função acima, preencha o loop de controle do robô para mantê-lo centralizado na pista
-
-3. Preencher a função `distancia_origem()` para calcular e imprimir a distância do robô à origem
-
+Faça o robô visitar as duas caixas magenta, e depois as duas caixas amarelas, não importando a ordem das caixas de uma mesma cor. Porém as caixas magenta devem ser visitadas primeiro. Visitar significa: chegar pŕoximo à caixa, a uma distância menor do que 30 cm. Para alinhar o robô e se aproximar das caixas, use o controle proporcional.
 
 #### Detalhes de como rodar
 
-O código para este exercício está em: `p1_221/scripts/q4.py`
+Para responder à questão você deverá trabalhar em `p1_222/scripts/q4.py`:
 
 Para rodar, recomendamos que faça:
 
-    roslaunch my_simulation pista_oval.launch
+    roslaunch my_simulation caixas.launch
 
 Depois:
 
-    rosrun p1_221 q4.py
+    rosrun p1_222 q4.py
 
 
 |Resultado| Conceito| 
 |---|---|
 | Não executa | 0 |
-| Segmenta a reta do centro ou as retas das laterais e fornece evidência visual | 0.7 |
-| Encontra ao menos uma das retas e fornece evidência visual  | 1.2 |
-| Encontra o ponto de referência para controle do robô | 1.8 |
-| O robô consegue dar ao menos uma volta na pista | 2.2|
-| O robô para após completar uma volta | 2.5|
+| Segmenta corretamente pelo menos a cor magenta | 0.5 |
+| Visita apenas uma caixa magenta, mas sem controle proporcional  | 1.0 |
+| Visita apenas uma caixa magenta, com controle proporcional  | 1.5 |
+| Visita apenas as caixas magenta | 2.0 |
+| O robô visitar todas as caixas na ordem de cores correta | 2.5|
+| Desconto caso não use o controle proporcional | -0.5|
 
 
 Casos intermediários ou omissos da rubrica serão decididos pelo professor.
 
 ## Questão 5 (2.50 pontos)
 
-![](gaz_cubos.png)
+<img src="paredes.jpeg" width=60%></img>
 
 Seu robô está no cenário visível abaixo:
 
-    roslaunch my_simulation encaixotado.launch
+    roslaunch my_simulation paralelas.launch
 
 
 #### O que é para fazer
 
-Gire o robô até encontrar o bloco com a figura assinalada (veja a tabela abaixo). Ao centralizar a figura, use o lidar para chegar próximo (30 cm) daquela figura. Depois, gire 180 graus e pare a 30 cm do bloco que está diametralmente oposto.
-
-Quem cujo primeiro nome se inicia com determinada letra da tabela abaixo, deve inicialmente se aproximar da figura correspondente:
-
-|Letra inicial do nome| Figura inicial| 
-|---|---|
-| A até C | Cachorro |
-| D até H | Cavalo |
-| I até P | Bicicleta |
-| Q até Z | Carro |
+Usando o lidar, faça um zigue-zague percorrendo o espaço entre as paredes e voltando, seguindo o trajeto indicado na figura. Você pode usar o *dead-reckoning* ("robô cego", usando o `rospy.sleep()`) apenas para girar o robô em algum ângulo determinado. 
 
 #### Detalhes de como rodar
 
 
-O código para este exercício está em: `p1_221/scripts/q5.py`
+O código para este exercício está em: `p1_222/scripts/q5.py`
 
 Para rodar, recomendamos que faça:
 
-    roslaunch my_simulation encaixotado.launch
+    roslaunch my_simulation paralelas.launch
 
 Depois:
 
-    rosrun p1_221 q5.py
+    rosrun p1_222 q5.py
 
 
 
 |Resultado| Conceito| 
 |---|---|
 | Não executa | 0 |
-| Faz o robô detectar a primeira figura apenas, e mostra evidências | 1.0 |
-| Consegue centralizar na primeira figura | 1.50|
-| Chega próximo à primeira figura | 2.00|
-| Dá a volta e chega na segunda figura | 2.50|
+| O robô cumpre a tarefa apenas com *dead reckoning*  (`rospy.sleep()`)| 1.0 |
+| Faz o robô passar apenas entre as duas primeiras paredes, usando lidar  | 1.5 |
+| Fazer apenas o caminho de ida, mas não consegue voltar, usando lidar | 2.0|
+| Vai e volta seguindo o caminho especificado, usando lidar | 2.50|
 
 
 Casos intermediários ou omissos da rubrica serão decididos pelo professor.

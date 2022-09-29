@@ -11,42 +11,17 @@ import numpy as np
 import math
 import cv2
 import time
-from nav_msgs.msg import Odometry
-from sensor_msgs.msg import Image, CompressedImage, LaserScan
-from cv_bridge import CvBridge, CvBridgeError
+from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Vector3, Pose, Vector3Stamped
 
-from nav_msgs.msg import Odometry
+def scaneou(dado):
+    print(np.array(dado.ranges).round(2))
 
 
-bridge = CvBridge()
-
-cv_image = None
-
-
-# A função a seguir é chamada sempre que chega um novo frame
-def roda_todo_frame(imagem):
-    print("frame")
-    global cv_image
-
-    try:
-        temp_image = bridge.compressed_imgmsg_to_cv2(imagem, "bgr8")
-        cv_image = temp_image.copy()
-        # ATENÇÃO: ao mostrar a imagem aqui, não podemos usar cv2.imshow() dentro do while principal!! 
-        cv2.imshow("cv_image", cv_image)
-        cv2.waitKey(1)
-    except CvBridgeError as e:
-        print('ex', e)
-    
 if __name__=="__main__":
     rospy.init_node("Q5")
 
-    topico_imagem = "/camera/image/compressed"
-
-    recebedor = rospy.Subscriber(topico_imagem, CompressedImage, roda_todo_frame, queue_size=4, buff_size = 2**24)
-
-    print("Usando ", topico_imagem)
-
+    recebedor = rospy.Subscriber("/scan", LaserScan, scaneou)
     velocidade_saida = rospy.Publisher("/cmd_vel", Twist, queue_size = 1)
 
     try:
