@@ -36,9 +36,17 @@ def processa(frame):
 
     return centro, result_frame, result_tuples
 
+def identifica_amarelo(frame):
+    return identifica_cor(frame, (24, 55, 55), (41, 255, 255))
 
 
-def identifica_cor(frame):
+def identifica_magenta(frame):
+    return identifica_cor(frame, (145, 55, 55), (152, 255, 255))
+
+
+
+
+def identifica_cor(frame, cor_menor, cor_maior):
     '''
     Segmenta o maior objeto cuja cor é parecida com cor_h (HUE da cor, no espaço HSV).
     '''
@@ -48,9 +56,6 @@ def identifica_cor(frame):
     # Precisamos dividir o inRange em duas partes para fazer a detecção
     # do vermelho:
     frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    cor_menor = np.array([180/2, 50, 50])
-    cor_maior = np.array([240/2, 255, 255])
     segmentado_cor = cv2.inRange(frame_hsv, cor_menor, cor_maior)
 
     #cor_menor = np.array([172, 50, 50])
